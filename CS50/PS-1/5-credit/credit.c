@@ -30,6 +30,13 @@ int main(void) {
 }
 
 int is_checksum_valid(long number) {
+  // Validates if card number has a valid checksum by iterating over each digit
+  // on the 10^n position. It simply aggregates the digit if the position is
+  // odd. If the position is even, the operation follows the Luhn's algorithm by
+  // multiplying the digit by two, and aggregating this product if such product
+  // is less than 10. Otherwise, it aggregates the sum of the digits of the
+  // product. Finally, if the modulo base 10 of the aggregations of both odd and
+  // even positions equals 0, the function returns true, otherwise, false.
   int to_position = 16;
   int sum_odd_positions = 0;
   int sum_even_positions = 0;
@@ -59,6 +66,7 @@ int is_checksum_valid(long number) {
 }
 
 int is_amex(long number) {
+  // Validates if card number is amex
   int starts_with = get_first_2_digits_value_from_position(number, 15);
   if (starts_with == 34 || starts_with == 37) {
     return 1;
@@ -67,6 +75,7 @@ int is_amex(long number) {
 }
 
 int is_mastercard(long number) {
+  // Validates if card number is mastercard
   int starts_with = get_first_2_digits_value_from_position(number, 16);
   if (starts_with >= 51 && starts_with <= 55) {
     return 1;
@@ -75,6 +84,7 @@ int is_mastercard(long number) {
 }
 
 int is_visa(long number) {
+  // Validates if card number is visa
   int starts_with_16_digits = get_digit_in_nth_position(number, 16);
   int starts_with_13_digits = get_digit_in_nth_position(number, 13);
   if (starts_with_16_digits == 4 || starts_with_13_digits == 4) {
@@ -84,6 +94,9 @@ int is_visa(long number) {
 }
 
 int get_first_2_digits_value_from_position(long number, int position) {
+  // Returns the first 2 digits from the nth position of a number.
+  // E.g. get_first_2_digits_value_from_position(72256, 5) returns 72, which are
+  // the first two digits from the 10^5 place of the provided number
   int nth_digit = get_digit_in_nth_position(number, position);
   int nth_digit_minus_one = get_digit_in_nth_position(number, position - 1);
   return (nth_digit * 10) + nth_digit_minus_one;
